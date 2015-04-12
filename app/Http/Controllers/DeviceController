@@ -1,0 +1,11 @@
+<?php 
+
+
+class DeviceController extends BaseController {
+
+
+	public function currentstate(){
+		//currentstate
+	}
+}
+?>
