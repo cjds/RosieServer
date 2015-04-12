@@ -17,7 +17,7 @@ class HomeController extends BaseController {
 	public function base(){
 		$input=Input::all();
 		if (Request::isMethod('post')){
-    		//add_new_user
+    		$this->add_new_user($input['username'],$input['name'],$input['password']);
 		}
 		else (Request::isMethod('get')){
 
@@ -25,11 +25,13 @@ class HomeController extends BaseController {
 			if($user_id==null){
 				//check for login and reject
 				$user_logged_in=$this->login($input['username'],$input['password']);
-				if()
+				if(!$user_logged_in){
+					return json_encode(['response':'fail','reason':'The user could not be validated']);
+				}
 			}
+
 		}
-
-
+		return json_encode($this->get_user_details());
 	}
 
 	/**
@@ -39,7 +41,7 @@ class HomeController extends BaseController {
 	 */
 	public function add_new_user($user_name,$name,$password)
 	{
-	
+		///TODO
 	}
 
 	/**
@@ -48,11 +50,14 @@ class HomeController extends BaseController {
 	 * @return True or false
 	 */
 	public function login($user_name,$password){
-
+		Session::put('user_id', '');
+		Session::put('user_name',$user_name);	
 	}
 
-	public function get_user_details($user_id){
-
+	public function get_user_details(){
+		$array['user_id']=Session::get('user_id');
+		$array['user_name']=Session::get('user_name');
+		return $array;
 	}
 
 }
