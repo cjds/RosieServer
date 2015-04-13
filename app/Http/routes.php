@@ -14,14 +14,13 @@
 Route::get('/', 'WelcomeController@index');
 
 
-Route::any('/recipes','HomeController@recipes');
+Route::any('/recipe','RecipeController@base');
 
-Route::any('/currentstate','DeviceController@currentstate');
+Route::any('/device','DeviceController@currentstate');
 
 Route::any('/user','UserController@base');
 
-
-
+Route::any('/gettoken','HomeController@gettoken');
 Route::get('home', 'HomeController@index');
 
 Route::controllers([

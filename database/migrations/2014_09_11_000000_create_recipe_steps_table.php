@@ -15,8 +15,13 @@ class CreateRecipeStepsTable extends Migration {
 		Schema::create('recipe_steps', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->string('step_title');
 			$table->mediumText('step');
-			$table->foreign('recipe_id')->references('id')->on('recipe');			
+			$table->integer('recipe_id')->unsigned();
+			$table->foreign('recipe_id')->references('id')->on('recipe');
+			$table->integer('step_number')->unsigned();
+			$table->integer('machine_instruction')->unsigned();
+			$table->boolean('user_step')->unsigned();
 			$table->timestamps();
 		});
 	}

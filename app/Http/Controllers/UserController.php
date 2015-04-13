@@ -1,7 +1,13 @@
-<?php 
+<?php namespace App\Http\Controllers;
 
 
-class HomeController extends BaseController {
+use Illuminate\Routing\Controller as BaseController;
+use Request;
+use Session;
+use DB;
+
+
+class UserController extends BaseController {
 
 
 	/**
@@ -15,18 +21,19 @@ class HomeController extends BaseController {
 	}
 
 	public function base(){
-		$input=Input::all();
+		$input=Request::all();
 		if (Request::isMethod('post')){
-    		$this->add_new_user($input['username'],$input['name'],$input['password']);
+    		$this->add_new_user($input['username'],null,$input['password']);
+    		$this->login($input['username'],$input['password']);
 		}
-		else (Request::isMethod('get')){
+		else if(Request::isMethod('get')){
 
 			$user_id = Session::get('user_id');
 			if($user_id==null){
 				//check for login and reject
 				$user_logged_in=$this->login($input['username'],$input['password']);
 				if(!$user_logged_in){
-					return json_encode(['response':'fail','reason':'The user could not be validated']);
+					return json_encode(['response'=>'fail','reason'=>'The user could not be validated']);
 				}
 			}
 
@@ -42,6 +49,10 @@ class HomeController extends BaseController {
 	public function add_new_user($user_name,$name,$password)
 	{
 		///TODO
+		//DB::insert('insert into users (name,password,device_id) values (?, ?,?)', [$user_name, $password,1]);
+		$query=DB::insert('insert into users (name,password,device_id) values (?, ?,?)', [$user_name, $password,1]);
+
+
 	}
 
 	/**
@@ -50,13 +61,22 @@ class HomeController extends BaseController {
 	 * @return True or false
 	 */
 	public function login($user_name,$password){
-		Session::put('user_id', '');
-		Session::put('user_name',$user_name);	
+		$output=false;
+		$query=DB::select("SELECT * FROM users WHERE name=:name AND password=:password",['name'=>$user_name,'password'=>$password]);
+		if(count($query)==1){
+			Session::put('user_id', $query[0]->id);
+			Session::put('user_name',$query[0]->name);	
+			$output=true;
+		}
+		return $output;
+
 	}
 
 	public function get_user_details(){
+		//$encrypted_token = $encrypter->encrypt(csrf_token());		
 		$array['user_id']=Session::get('user_id');
 		$array['user_name']=Session::get('user_name');
+		$array['_token']=csrf_token();
 		return $array;
 	}
 
