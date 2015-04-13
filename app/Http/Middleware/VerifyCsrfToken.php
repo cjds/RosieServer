@@ -32,3 +32,4 @@ class VerifyCsrfToken extends BaseVerifier {
 	}
 
 }
+ 
