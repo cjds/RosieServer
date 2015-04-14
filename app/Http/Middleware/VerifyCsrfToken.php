@@ -14,9 +14,7 @@ class VerifyCsrfToken extends BaseVerifier {
 	 */
 	public function handle($request, Closure $next)
 	{
-		public function handle($request, Closure $next)
-{
-        // Add this:
+       // Add this:
         if($request->method() == 'POST')
         {
         return $next($request);
@@ -27,7 +25,6 @@ class VerifyCsrfToken extends BaseVerifier {
         return $next($request);
     }
     throw new TokenMismatchException;
-}
 		//return parent::handle($request, $next);
 	}
 
