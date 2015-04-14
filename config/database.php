@@ -1,5 +1,17 @@
 <?php
-
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+if($url!=NULL){
+	$host = $url["host"];
+	$username = $url["user"];
+	$password = $url["pass"];
+	$database = substr($url["path"], 1);
+}
+else{
+	$host = env('DB_HOST', 'localhost'),
+	$username = env('DB_DATABASE', 'rosie'),
+	$password = env('DB_USERNAME', 'root'),
+	$database = env('DB_PASSWORD', ''),
+}
 return [
 
 	/*
