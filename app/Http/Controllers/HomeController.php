@@ -17,5 +17,5 @@ class HomeController extends BaseController {
 	public function gettoken(){
 		echo csrf_token();
 	}
-
+ 
 }?>
