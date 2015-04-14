@@ -7,10 +7,10 @@ if($url!=NULL){
 	$database = substr($url["path"], 1);
 }
 else{
-	$host = env('DB_HOST', 'localhost'),
-	$username = env('DB_DATABASE', 'rosie'),
-	$password = env('DB_USERNAME', 'root'),
-	$database = env('DB_PASSWORD', ''),
+	$host = env('DB_HOST', 'localhost');
+	$username = env('DB_DATABASE', 'rosie');
+	$password = env('DB_USERNAME', 'root');
+	$database = env('DB_PASSWORD', '');
 }
 return [
 
