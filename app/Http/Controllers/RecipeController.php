@@ -41,6 +41,10 @@ class RecipeController extends BaseController {
 
 	public function getrecipes(){
 		$query=DB::select("Select * from recipe",[]);
+		foreach ($query as $key => $value) {
+			$query1=DB::select("Select * from recipe_steps WHERE recipe_id=:id",['id'=>$value->id]);
+			$query[$key]->steps=$query1;
+		}
 		return $query;		
 	}
 

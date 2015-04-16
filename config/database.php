@@ -1,17 +1,11 @@
 <?php
 $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-if($url!=NULL){
-	$host = $url["host"];
-	$username = $url["user"];
-	$password = $url["pass"];
-	$database = substr($url["path"], 1);
-}
-else{
-	$host = env('DB_HOST', 'localhost');
-	$username = env('DB_DATABASE', 'rosie');
-	$password = env('DB_USERNAME', 'root');
-	$database = env('DB_PASSWORD', '');
-}
+	$host = array_key_exists('host',$url)?$url["host"]:env('DB_HOST', 'localhost');
+	$username = array_key_exists('username',$url)?$url["username"]:env('DB_DATABASE', 'rosie');
+	$password = array_key_exists('password',$url)?$url["password"]:env('DB_USERNAME', 'root');
+	$database = array_key_exists('database',$url)?$url["database"]:env('DB_PASSWORD', '');
+
+
 return [
 
 	/*
@@ -66,10 +60,10 @@ return [
 
 		'mysql' => [
 			'driver'    => 'mysql',
-			'host'      => $host,
-			'database'  => $database,
-			'username'  => $username,
-			'password'  => $password,
+			'host'      => 'localhost',
+			'database'  => 'rosie',
+			'username'  => 'root',
+			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
